@@ -8,56 +8,84 @@ var shoppingCart = angular.module("shoppingCart", [
     ])
     .config(["$routeProvider", function($routeProvider){
         $routeProvider
-            .when("/home", {
-                templateUrl: "home/templates/shopping-cart.html"
+            .when("/:category/:subcategory", {
+                templateUrl: "components/productView/productListView.html"
             })
             .when("/basket", {
                 templateUrl: "basket/basket.html"
             })
-            .otherwise({redirectTo: "/home"});
+            .otherwise({redirectTo: "/"});
     }])
-    .controller('cartCtrl', ['$scope', function($scope) {
-        $scope.items =[
-            {
-                "category": "Women",
-                "subcat": "Clothing",
-                "item": "Party wear - Front Leather Panelled Ponte Treggings",
-                "price": "159.00",
-                "uid": 1
+    .run(function($rootScope, productsSvc) {
+        $rootScope.categories = productsSvc.getCategories();
+    })
+    .service("productsSvc", function(){
+        var service = {
+            getCategories: function(){
+                return [
+                    {
+                        name: "Women",
+                        subcategories: ["Clothing"]
+                    },
+                    {
+                        name: "Men",
+                        subcategories: ["Suits & Tailoring", "Jeans"]
+                    },
+                    {
+                        name: "Beauty",
+                        subcategories: ["Skincare"]
+                    }
+                ];
             },
-            {
-                "category": "Women",
-                "subcat": "Clothing",
-                "item": "Speziale Italian Cupro Draped Bodycon Dress",
-                "price": "89.00",
-                "uid": 2,
-                "quantity": "0"
-            },
-            {
-                "category": "Beauty",
-                "subcat": "Skincare",
-                "item": "Aptiva - Wine Elixir Night Cream",
-                "price": "79.00",
-                "uid": 3,
-                "quantity": "0"
-            },
-            {
-                "category": "Men",
-                "subcat": "Suits & Tailoring",
-                "item": "Sartorial – Slim Fit Luxury Pure Cotton Rib Striped Shirt",
-                "price": "39.50",
-                "uid": 4,
-                "quantity": "0"
-            },
-            {
-                "category": "Men",
-                "subcat": "Jeans",
-                "item": "Big & Tall Washed Look Bootleg Denim Jeanst",
-                "price": "25.00",
-                "uid": 5,
-                "quantity": "0"
+            getProducts: function(){
+                return products =[
+                    {
+                        "category": "Women",
+                        "subcat": "Clothing",
+                        "item": "Party wear - Front Leather Panelled Ponte Treggings",
+                        "price": "159.00",
+                        "uid": 1
+                    },
+                    {
+                        "category": "Women",
+                        "subcat": "Clothing",
+                        "item": "Speziale Italian Cupro Draped Bodycon Dress",
+                        "price": "89.00",
+                        "uid": 2
+                    },
+                    {
+                        "category": "Beauty",
+                        "subcat": "Skincare",
+                        "item": "Aptiva - Wine Elixir Night Cream",
+                        "price": "79.00",
+                        "uid": 3
+                    },
+                    {
+                        "category": "Men",
+                        "subcat": "Suits & Tailoring",
+                        "item": "Sartorial – Slim Fit Luxury Pure Cotton Rib Striped Shirt",
+                        "price": "39.50",
+                        "uid": 4
+                    },
+                    {
+                        "category": "Men",
+                        "subcat": "Jeans",
+                        "item": "Big & Tall Washed Look Bootleg Denim Jeanst",
+                        "price": "25.00",
+                        "uid": 5
+                    }
+                ];
             }
-        ];
+        };
+
+        return service;
+    })
+    .controller('productListCtrl', ['$scope', '$routeParams', '$categoriesSvc', function($scope, $routeParams, productsSvc) {
+
+        $scope.products = [];
+        console.log($routeParams);
+
+/*
         $scope.basket = [],
         $scope.total = 0;
 
@@ -88,18 +116,19 @@ var shoppingCart = angular.module("shoppingCart", [
             $scope.basket.splice(i, 1);
             $scope.calcTotal(item, false);
         };
+        */
     }]);
     //.directive("category", function(){
     //    return {
     //        restriction: "A",
-    //        templateUrl: "components/templates/category.html",
+    //        templateUrl: "components/templates/menu.html",
     //        replace: true
     //    }
     //})
     //.directive("shoppingCart", function(){
     //    return {
     //        restriction: "EA",
-    //        templateUrl: "components/templates/shopping-cart.html",
+    //        templateUrl: "components/templates/productListView.html",
     //        replace: true,
     //        scope: true,
     //        transclude: true

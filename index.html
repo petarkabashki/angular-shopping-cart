@@ -4,14 +4,8 @@
     <title>Your Shopping Cart</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-controller='cartCtrl'>
-    <header>
-        <nav>
-            <ul class="menu">
-                <li category ng-repeat="item in items track by $index"></li>
-            </ul>
-        </nav>
-    </header>
+<body >
+    <ms-menu></ms-menu>
     <div class="container">
         <div id="basket">
             <p>Total: {{basket.length}}</p>

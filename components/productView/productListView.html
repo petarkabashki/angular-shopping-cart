@@ -1,0 +1,13 @@
+<div id="content">
+    <h1>Products in {{selectedCategory}}/{{selectedSubcategory}}</h1>
+    <div class="item">
+        <h2>{{subcat}}</h2>
+        <p>Item:<span>{{item}}</span></p>
+        <p>Price:<span>{{price | currency}}</span></p>
+        <p>Quantity:<span>{{quantity}}</span></p>
+        <input ng-model='item.quantity'>
+        <p>Total: <span ng-model="total">{{price * quantity | currency}}</span></p>
+        <button ng-click="addToBasket(item)">Add</button>
+        <button ng-click="clearItem()">Clear</button>
+    </div>
+</div>
