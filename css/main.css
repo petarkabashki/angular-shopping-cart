@@ -1,0 +1,85 @@
+header {
+    margin-bottom: 6em;
+}
+header nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+header nav ul {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+}
+header nav ul li {
+    list-style: none;
+    float: left;
+    width: 17.5%;
+    margin: 0 1em;
+    text-align: center;
+}
+#content {
+    margin: auto;
+    width: 50%;
+}
+.menu li{
+    list-style: none;
+    float: left;
+}
+.menu li a {
+    padding: 1em;
+}
+.menu li:hover a {
+    /*background: gainsboro;*/
+}
+.menu li .subcat {
+    display: none;
+    text-align: left;
+    padding: 1em;
+    background: gainsboro;
+}
+.menu li:hover .subcat{
+    display: block;
+}
+.item {
+    border-radius: 20px;
+    padding: 2em;
+    margin-bottom: 1em;
+    background: #f9f8f7;
+}
+#basket {
+    float: right;
+    width: 200px;
+    padding: 1em;
+    background: #bcbcbc;
+}
+#basket a {
+    color: #FFFFFF;
+    padding: 0.7em;
+    background: gray;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 1px 1px 1px gray;
+    font-size: 0.8em;
+    margin-left: -1em;
+}
+#basket > div {
+    display: none;
+    padding: 1em;
+}
+#basket:hover > div {
+    display: block;
+}
+#basket .basketItems {
+    margin-bottom: 1em;
+    text-align: right;
+}
+#basket .basketItems span {
+    display: block;
+    text-align: left;
+}
+#basket .basketItems ul {
+    list-style: none;
+    text-align: left;
+    padding-left: 2em;
+}
