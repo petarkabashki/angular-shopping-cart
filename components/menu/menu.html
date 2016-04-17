@@ -1,12 +1,10 @@
-<header>
-    <nav>
-        <ul class="menu">
-            <li ng-repeat="category in categories">
-                <a href="#/{{category.name}}">{{category.name}}</a>
-                <div class="subcat" ng-repeat="subcategory in category.subcategories">
-                    <a href="#/{{category.name}}/{{subcategory}}" ng-click="click($index)">{{subcategory}}</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-</header>
+<nav>
+    <ul class="menu">
+        <li ng-repeat="category in categories">
+            <a href="#/{{category.name}}">{{category.name}}</a>
+            <div class="subcat" ng-repeat="subcategory in category.subcategories">
+                <a href="#/{{category.name}}/{{subcategory}}" ng-click="click($index)">{{subcategory}}</a>
+            </div>
+        </li>
+    </ul>
+</nav>

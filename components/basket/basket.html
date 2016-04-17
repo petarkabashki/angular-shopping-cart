@@ -1,0 +1,16 @@
+<section id="inline-basket" ng-controller="basketCtrl">
+    <header>Your basket</header>
+    <ul>
+        <li class="basketItem" ng-repeat="(uid, item) in basketProducts">
+            <h3>{{item.name}}</h3>
+            <ul>
+                <li>{{$index + 1}}</li>
+                <li>UID: {{uid}}</li>
+                <li>Price: {{item.price | currency}}</li>
+                <li>Qty: {{item.quantity}}</li>
+                <li><button ng-click="removeFromBasket(uid)">Remove</button></li>
+            </ul>
+        </li>
+    </ul>
+    <footer>Total: {{total | currency}}</footer>
+</section>

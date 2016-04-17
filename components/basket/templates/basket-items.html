@@ -1,0 +1,11 @@
+<div class="basketItems">
+    <span>
+        {{$index + 1}}
+    </span>
+    <ul ng-repeat="i in basket">
+        <li>{{item}}</li>
+        <li>{{item.price}}</li>
+        <li>{{i.quantity}}</li>
+    </ul>
+    <button ng-click="removeFromBasket(item)">Remove</button>
+</div>

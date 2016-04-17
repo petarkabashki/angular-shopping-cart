@@ -8,19 +8,28 @@ var shoppingCart = angular.module("shoppingCart", [
     ])
     .config(["$routeProvider", function($routeProvider){
         $routeProvider
-            .when("/:category/:subcategory", {
+            .when("/:category?/:subcategory?", {
                 templateUrl: "components/productView/productListView.html"
-            })
-            .when("/basket", {
-                templateUrl: "basket/basket.html"
             })
             .otherwise({redirectTo: "/"});
     }])
-    .run(function($rootScope, productsSvc) {
-        $rootScope.categories = productsSvc.getCategories();
+    .run(function($rootScope, productsService) {
+        $rootScope.categories = productsService.getCategories();
     })
-    .service("productsSvc", function(){
+    .service("productsService", function(){
+        basketProducts = {};
+
         var service = {
+            getBasketProducts: function(){
+                return basketProducts;
+            },
+            getBasketTotal: function(){
+                var total = 0;
+                for(uid in basketProducts){
+                    total += parseFloat(basketProducts[uid].price) * parseInt(basketProducts[uid].quantity);
+                }
+                return total;
+            },
             getCategories: function(){
                 return [
                     {
@@ -42,35 +51,35 @@ var shoppingCart = angular.module("shoppingCart", [
                     {
                         "category": "Women",
                         "subcat": "Clothing",
-                        "item": "Party wear - Front Leather Panelled Ponte Treggings",
+                        "name": "Party wear - Front Leather Panelled Ponte Treggings",
                         "price": "159.00",
                         "uid": 1
                     },
                     {
                         "category": "Women",
                         "subcat": "Clothing",
-                        "item": "Speziale Italian Cupro Draped Bodycon Dress",
+                        "name": "Speziale Italian Cupro Draped Bodycon Dress",
                         "price": "89.00",
                         "uid": 2
                     },
                     {
                         "category": "Beauty",
                         "subcat": "Skincare",
-                        "item": "Aptiva - Wine Elixir Night Cream",
+                        "name": "Aptiva - Wine Elixir Night Cream",
                         "price": "79.00",
                         "uid": 3
                     },
                     {
                         "category": "Men",
                         "subcat": "Suits & Tailoring",
-                        "item": "Sartorial – Slim Fit Luxury Pure Cotton Rib Striped Shirt",
+                        "name": "Sartorial – Slim Fit Luxury Pure Cotton Rib Striped Shirt",
                         "price": "39.50",
                         "uid": 4
                     },
                     {
                         "category": "Men",
                         "subcat": "Jeans",
-                        "item": "Big & Tall Washed Look Bootleg Denim Jeanst",
+                        "name": "Big & Tall Washed Look Bootleg Denim Jeanst",
                         "price": "25.00",
                         "uid": 5
                     }
@@ -80,65 +89,53 @@ var shoppingCart = angular.module("shoppingCart", [
 
         return service;
     })
-    .controller('productListCtrl', ['$scope', '$routeParams', '$categoriesSvc', function($scope, $routeParams, productsSvc) {
+    .controller('productListCtrl', ['$scope', '$rootScope', '$routeParams', 'productsService', function($scope, $rootScope, $routeParams, productsService) {
+        var allProducts = productsService.getProducts();
 
-        $scope.products = [];
-        console.log($routeParams);
+        $scope.filteredProducts = [];
 
-/*
-        $scope.basket = [],
-        $scope.total = 0;
+        allProducts.forEach(function(product){
+            if( !$routeParams.category || $routeParams.category === product.category){
 
-        $scope.calcTotal = function(item, boolean){
-            var t = parseInt(item.price * item.quantity, 10);
-            if(boolean){
-                $scope.total += t;
+                if( !$routeParams.subcategory || $routeParams.subcategory === product.subcat) {
+                    product.addQty = 1;
+                    $scope.filteredProducts.push(product);
+                }
             }
-            else {
-                $scope.total -= t;
-            }
-            console.log($scope.total);
+
+        });
+
+        $scope.addToBasket = function(product){
+            $rootScope.$broadcast("productAdded", product);
+
         };
 
-        $scope.click = function(index){
-            $scope.item = $scope.items[index];
+    }])
+    .controller('basketCtrl', ['$scope', '$rootScope', 'productsService', function($scope, $rootScope, productsService) {
+        $scope.basketProducts = productsService.getBasketProducts();
+
+        $scope.removeFromBasket = function(uid) {
+            delete $scope.basketProducts[uid];
+
+            $scope.total = productsService.getBasketTotal();
         };
-        $scope.clearItem = function(){
-            $scope.item.quantity = 0;
-        };
-        $scope.addToBasket = function(item){
-            $scope.basket.push(item);
-            $scope.calcTotal(item, true);
-            console.log($scope.basket);
-        };
-        $scope.removeFromBasket = function(item) {
-            var i = $scope.basket.indexOf(item);
-            $scope.basket.splice(i, 1);
-            $scope.calcTotal(item, false);
-        };
-        */
+
+        $rootScope.$on("productAdded", function(e,product){
+            var addBasketProduct =  $scope.basketProducts[product.uid];
+            if(!addBasketProduct){
+                addBasketProduct = {
+                    name: product.name,
+                    price: product.price,
+                    quantity: 0
+                };
+                $scope.basketProducts[product.uid] = addBasketProduct;
+            }
+
+            addBasketProduct.quantity += parseInt(product.addQty, 10);
+
+
+            product.addQty = 1;
+
+            $scope.total = productsService.getBasketTotal();
+        });
     }]);
-    //.directive("category", function(){
-    //    return {
-    //        restriction: "A",
-    //        templateUrl: "components/templates/menu.html",
-    //        replace: true
-    //    }
-    //})
-    //.directive("shoppingCart", function(){
-    //    return {
-    //        restriction: "EA",
-    //        templateUrl: "components/templates/productListView.html",
-    //        replace: true,
-    //        scope: true,
-    //        transclude: true
-    //    }
-    //})
-    //.directive("basket", function(){
-    //    return {
-    //        restriction: "EA",
-    //        templateUrl: "components/templates/basket-items.html",
-    //        replace: true,
-    //        scope: true
-    //    };
-    //});

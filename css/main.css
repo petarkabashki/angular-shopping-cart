@@ -14,17 +14,25 @@ header nav ul {
 header nav ul li {
     list-style: none;
     float: left;
-    width: 17.5%;
+    width: 26.5%;
     margin: 0 1em;
     text-align: center;
 }
-#content {
+.container {
     margin: auto;
-    width: 50%;
+    width: 80%;
+}
+.container > div {
+    width: 90%;
+}
+.container li {
+    list-style: none;
 }
 .menu li{
     list-style: none;
     float: left;
+    display: block;
+    font-size: 1.5em;
 }
 .menu li a {
     padding: 1em;
@@ -36,6 +44,7 @@ header nav ul li {
     display: none;
     text-align: left;
     padding: 1em;
+    font-size: 0.8em;
     background: gainsboro;
 }
 .menu li:hover .subcat{
@@ -47,13 +56,17 @@ header nav ul li {
     margin-bottom: 1em;
     background: #f9f8f7;
 }
-#basket {
-    float: right;
-    width: 200px;
+#inline-basket {
+    width: 250px;
     padding: 1em;
     background: #bcbcbc;
+    position: absolute;
+    right: 0;
 }
-#basket a {
+#inline-basket header {
+    margin: 0;
+}
+#inline-basket a {
     color: #FFFFFF;
     padding: 0.7em;
     background: gray;
@@ -63,22 +76,26 @@ header nav ul li {
     font-size: 0.8em;
     margin-left: -1em;
 }
-#basket > div {
+#inline-basket > ul {
     display: none;
     padding: 1em;
 }
-#basket:hover > div {
+#inline-basket:hover > ul {
     display: block;
 }
-#basket .basketItems {
+#inline-basket > ul li:last-of-type {
+    list-style: none;
+    float: right;
+}
+#inline-basket .basketItems {
     margin-bottom: 1em;
     text-align: right;
 }
-#basket .basketItems span {
+#inline-basket .basketItems span {
     display: block;
     text-align: left;
 }
-#basket .basketItems ul {
+#inline-basket .basketItems ul {
     list-style: none;
     text-align: left;
     padding-left: 2em;
